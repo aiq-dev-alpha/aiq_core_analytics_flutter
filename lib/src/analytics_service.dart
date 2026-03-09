@@ -52,12 +52,18 @@ class AnalyticsService {
     );
 
     _eventBuffer.add(event);
+    if (_eventBuffer.length > 1000) _eventBuffer.removeAt(0);
     _events.add(event);
     if (_events.length > 1000) _events.removeAt(0);
   }
 
   void trackFunnelStep(String userId, FunnelStep step) {
+    if (userId.isEmpty) return;
     _funnelProgress[userId] = {...(_funnelProgress[userId] ?? {}), step};
+    if (_funnelProgress.length > 10000) {
+      final oldest = _funnelProgress.keys.first;
+      _funnelProgress.remove(oldest);
+    }
     trackEvent(AnalyticsEventType.custom, 'funnel_step', parameters: {'step': step.name});
   }
 
@@ -188,7 +194,12 @@ class AnalyticsService {
     final existing = await _cache!.getString('analytics_events');
     List<Map<String, dynamic>> stored = [];
     if (existing != null && existing.isNotEmpty) {
-      try { stored = (jsonDecode(existing) as List).cast<Map<String, dynamic>>(); } catch (_) {}
+      try {
+        final decoded = jsonDecode(existing);
+        if (decoded is List) {
+          stored = decoded.whereType<Map<String, dynamic>>().toList();
+        }
+      } catch (_) {}
     }
     stored.addAll(batch.map((e) => e.toJson()));
     if (stored.length > 500) stored = stored.sublist(stored.length - 500);
