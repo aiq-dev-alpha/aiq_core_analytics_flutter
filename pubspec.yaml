@@ -1,0 +1,15 @@
+name: aiq_core_analytics_flutter
+description: Analytics service with event buffering, crash reporting, A/B testing, and funnel analysis for Flutter apps.
+version: 1.0.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  aiq_core_data_store_flutter:
+    git:
+      url: https://github.com/aiq-dev-alpha/aiq_core_data_store_flutter.git
+      ref: main
