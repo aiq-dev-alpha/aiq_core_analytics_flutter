@@ -183,7 +183,7 @@ class AnalyticsService {
   Map<String, dynamic> _getDeviceInfo() => {'platform': 'flutter', 'timestamp': DateTime.now().toIso8601String()};
 
   void _startFlushTimer() {
-    _flushTimer = Timer.periodic(const Duration(seconds: 30), (_) { _flushEvents(); });
+    _flushTimer = Timer.periodic(const Duration(minutes: 5), (_) { _flushEvents(); });
   }
 
   Future<void> _flushEvents() async {
