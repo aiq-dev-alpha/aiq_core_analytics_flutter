@@ -1,6 +1,8 @@
 name: aiq_core_analytics_flutter
 description: Analytics service with event buffering, crash reporting, A/B testing, and funnel analysis for Flutter apps.
 version: 1.0.0
+publish_to: none
+resolution: workspace
 
 environment:
   sdk: '>=3.11.1 <4.0.0'
